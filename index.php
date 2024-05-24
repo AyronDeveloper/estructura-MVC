@@ -17,18 +17,17 @@ require_once("./helpers/parameters.php");
 require_once("./helpers/utils.php");
 require_once("./helpers/validation.php");
 
-
 if(isset($_GET["pp"]) && $_GET["pp"]!=null){
     $name_controller=$_GET["pp"]."Controller";
     if(class_exists($name_controller)){
 
         $controlador=new $name_controller();
-        if(method_exists($controlador, $_GET["sp"]) && isset($_GET["tp"]) && $_GET["tp"]!=null){
+        if(method_exists($controlador, metodoName($_GET["sp"])) && isset($_GET["tp"]) && $_GET["tp"]!=null){
             $tp=$_GET["tp"];
-            $metodo=$_GET["sp"];
+            $metodo=metodoName($_GET["sp"]);
             $controlador->$metodo($tp);
-        }elseif(isset($_GET["sp"])&& method_exists($controlador, $_GET["sp"])){
-            $metodo=$_GET["sp"];
+        }elseif(isset($_GET["sp"])&& method_exists($controlador, metodoName($_GET["sp"]))){
+            $metodo=metodoName($_GET["sp"]);
             $controlador->$metodo();
         }elseif(!isset($_GET["sp"]) || $_GET["sp"]==null){
             $metodo=actionDefault;
@@ -40,12 +39,12 @@ if(isset($_GET["pp"]) && $_GET["pp"]!=null){
         $name_controller=controllerDefault;
 
         $controlador=new $name_controller();
-        if(method_exists($controlador,$_GET["pp"]) && isset($_GET["sp"]) && $_GET["sp"]!=null){
+        if(method_exists($controlador,metodoName($_GET["pp"])) && isset($_GET["sp"]) && $_GET["sp"]!=null){
             $sp=$_GET["sp"];
-            $metodo=$_GET["pp"];
+            $metodo=metodoName($_GET["pp"]);
             $controlador->$metodo($sp);
-        }elseif(isset($_GET["pp"])&& method_exists($controlador,$_GET["pp"])){
-            $metodo=$_GET["pp"];
+        }elseif(isset($_GET["pp"])&& method_exists($controlador,metodoName($_GET["pp"]))){
+            $metodo=metodoName($_GET["pp"]);
             $controlador->$metodo();
         }else{
             errorController::index();
